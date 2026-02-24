@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Linkdin Scrap - Recruiter Monitor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Linkdin Scrap — LinkedIn Recruiter Post Monitor (Phase 1 MVP)</h1>
+      <form method="post" action="{{ url_for('main.search') }}" class="search-form">
+        <input
+          type="text"
+          name="query"
+          placeholder="Enter keyword or paste LinkedIn URL"
+          required
+        />
+        <select name="time_filter">
+          <option value="past_hour" {% if default_time_filter == 'past_hour' %}selected{% endif %}>Past Hour</option>
+          <option value="past_24_hours" {% if default_time_filter == 'past_24_hours' %}selected{% endif %}>Past 24 Hours</option>
+          <option value="past_7_days" {% if default_time_filter == 'past_7_days' %}selected{% endif %}>Past 7 Days</option>
+          <option value="past_30_days" {% if default_time_filter == 'past_30_days' %}selected{% endif %}>Past 30 Days</option>
+        </select>
+        <button type="submit">Search</button>
+      </form>
+      <p class="hint">Credentials are loaded from <code>.env</code>. For safety, use a dedicated LinkedIn account.</p>
+      <p>
+        <a href="{{ url_for('main.results') }}">View latest results</a>
+        ·
+        <a href="{{ url_for('main.preview') }}">Open preview demo (no login required)</a>
+      </p>
+    </main>
+  </body>
+</html>
