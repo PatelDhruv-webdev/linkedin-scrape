@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Results - Linkdin Scrap</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Scraped Results</h1>
+      {% if preview_mode %}
+      <p class="badge">Preview mode: static sample results</p>
+      {% endif %}
+      {% if error_message %}
+      <p class="error">{{ error_message }}</p>
+      {% endif %}
+      <p>Inserted {{ inserted }} new posts {% if keyword %}for <strong>{{ keyword }}</strong>{% endif %}.</p>
+      <a href="{{ url_for('main.index') }}">← New Search</a>
+
+      {% if results %}
+      <div class="results-list">
+        {% for post in results %}
+        <article class="card">
+          <h2>{{ post['recruiter_name'] or 'Unknown Recruiter' }}</h2>
+          <p><strong>Company/Title:</strong> {{ post['company'] or 'N/A' }}</p>
+          <p><strong>Posted:</strong> {{ post['post_date'] or 'N/A' }}</p>
+          <p>{{ (post['post_content'] or '')[:150] }}{% if post['post_content'] and post['post_content']|length > 150 %}...{% endif %}</p>
+          {% if post['post_url'] %}
+          <a href="{{ post['post_url'] }}" target="_blank" rel="noopener noreferrer">View on LinkedIn</a>
+          {% endif %}
+        </article>
+        {% endfor %}
+      </div>
+      {% else %}
+      <p>No posts scraped yet. Run a search first.</p>
+      {% endif %}
+    </main>
+  </body>
+</html>
